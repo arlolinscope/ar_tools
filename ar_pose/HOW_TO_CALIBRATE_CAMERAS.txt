@@ -1,0 +1,21 @@
+This walkthrough goes through how to run camera calibration for ARL SCOPE with a GoPro hooked through the Lightbridge system.
+----------------------------------------------------------------
+
+
+First, launch code that will take the /dev/video0 port and publish that image through ROS. The ARL SCOPE team uses uvc_camera, and it has been packed in one of our launch files. If you run the following code, it will open up the device /dev/video0 at 1080p, 30 fps, and will publish that video as ROS topics.
+	roslaunch ar_pose gopro_calibration.launch
+
+
+Second, follow the tutorials here on running calibration:
+	http://wiki.ros.org/camera_calibration/Tutorials/MonocularCalibration.
+
+In order to follow this tutorial a paper printout of a calibration image is required. An example of this file is here:
+	http://docs.opencv.org/_downloads/pattern.png
+
+As an example, we calibrated our system with
+	rosrun camera_calibration cameracalibrator.py --size 9x6 --square 0.0222 image:=/camera/image_raw camera:=/camera
+
+
+Finally, test everything with
+	roslaunch ar_pose ar_pose_multi_gopro.launch
+Confirm that the fiducials are detected as expected. Fiducial files were included with the flash drives and DVDs sent to ARL by the SCOPE team.
